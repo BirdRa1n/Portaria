@@ -1,10 +1,9 @@
 {
-  "background_color": "#ffffff",
   "description": "",
   "display": "standalone",
   "lang": "en",
-  "name": "Portaria",
-  "short_name": "Portaria",
+  "name": "Sistema de portaria IFPI",
+  "short_name": "Sistema de portaria IFPI",
   "start_url": "/?utm_source=web_app_manifest",
   "orientation": "portrait",
   "icons": [
