@@ -15,10 +15,12 @@ import {
   Link,
   Button,
   WarningOutlineIcon,
+  ScrollView,
 } from "native-base";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import axios from "axios";
+import { Platform } from "react-native";
 
 export default function Login({ navigation }) {
   const [formData, setData] = React.useState({});
@@ -64,6 +66,7 @@ export default function Login({ navigation }) {
           });
 
           navigation.navigate("Dashboard");
+          console.log("Login realizado com sucesso!")
         }
       });
   }
@@ -76,166 +79,210 @@ export default function Login({ navigation }) {
     }
   };
 
+  function checkPlataform(){
+    if(Platform.OS == "web"){
+      console.log("Plataform is Web")
+      setData({
+        ...formData,
+        stateQRButton: true
+      })
+    }else{
+      console.log("Plataform is !web")
+      setData({
+        ...formData,
+        stateQRButton: false
+      })
+    }
+  }
+
+  useEffect(() => {
+    checkPlataform()
+  }, []);
+
   return (
     <NativeBaseProvider>
-      <View w={"100%"} h={"100%"} bg={"#fff"}>
-        <KeyboardAvoidingView>
+      <Box w={"100%"} h={"100%"} bg={"#fff"} safeArea>
+        <ScrollView bg={"#fff"} showsVerticalScrollIndicator={false}>
           <Center>
             <Box
               w={"90%"}
-              maxW={400}
+              maxW={390}
               h={"91%"}
-              maxH={"900"}
+              maxH={900}
               bg={"light.100"}
               borderRadius={10}
               top={5}
             >
-              <Center>
-                <Image
-                  top={5}
-                  source={{
-                    uri: "https://pbs.twimg.com/profile_images/438771627854024704/Az4OY07a_400x400.png",
-                  }}
-                  alt="Alternate Text"
-                  size="sm"
-                />
-              </Center>
-              <Center top={5}>
-                <Heading size={"sm"}>INSTITUTO</Heading>
-                <Heading size={"sm"}>FEDERAL</Heading>
-                <Text fontSize={"xl"}>Piauí</Text>
-              </Center>
-
-              <Center w="100%">
-                <Box safeArea p="2" py="8" w="90%" maxW="290">
-                  <Heading
-                    size="lg"
-                    fontWeight="600"
-                    color="coolGray.800"
-                    _dark={{
-                      color: "warmGray.50",
+              <KeyboardAvoidingView
+                h={{
+                  base: "100%",
+                  lg: "auto",
+                }}
+                maxH={{
+                  base: "450px",
+                  lg: "auto",
+                }}
+                behavior={Platform.OS === "ios" ? "padding" : "height" && Platform.OS === "android" ? "padding" : "height"}
+              >
+                <Center>
+                  <Image
+                    top={5}
+                    source={{
+                      uri: "https://pbs.twimg.com/profile_images/438771627854024704/Az4OY07a_400x400.png",
                     }}
-                  >
-                    Bem vindo de volta
-                  </Heading>
-                  <Heading
-                    mt="1"
-                    _dark={{
-                      color: "warmGray.200",
-                    }}
-                    color="coolGray.600"
-                    fontWeight="medium"
-                    size="xs"
-                  >
-                    faça login para continuar!
-                  </Heading>
+                    alt="Alternate Text"
+                    size="sm"
+                  />
+                </Center>
 
-                  <VStack space={3} mt="5">
-                    <FormControl isInvalid={formData.IDState}>
-                      <FormControl.Label>
-                        <HStack space={2}>
-                          <FormControl.Label>ID</FormControl.Label>
-                          <FormControl.ErrorMessage
-                            top={-1.2}
-                            leftIcon={<WarningOutlineIcon size="xs" />}
-                          >
-                            Usuário não encontrado
-                          </FormControl.ErrorMessage>
-                        </HStack>
-                      </FormControl.Label>
-                      <Input
-                        onChangeText={(value) =>
-                          setData({
-                            ...formData,
-                            id_code: value,
-                          })
-                        }
-                      />
-                    </FormControl>
-                    <FormControl isInvalid={formData.PasswordState}>
-                      <FormControl.Label>
-                        <HStack space={2}>
-                          <FormControl.Label>Senha</FormControl.Label>
-                          <FormControl.ErrorMessage
-                            top={-1.2}
-                            leftIcon={<WarningOutlineIcon size="xs" />}
-                          >
-                            Senha incorreta
-                          </FormControl.ErrorMessage>
-                        </HStack>
-                      </FormControl.Label>
+                <Center top={5}>
+                  <Heading size={"sm"}>INSTITUTO</Heading>
+                  <Heading size={"sm"}>FEDERAL</Heading>
+                  <Text fontSize={"xl"}>Piauí</Text>
+                </Center>
 
-                      <Input
-                        type="password"
-                        onChangeText={(value) =>
-                          setData({
-                            ...formData,
-                            password: value,
-                          })
-                        }
-                      />
-
-                      <Link
-                        _text={{
-                          fontSize: "xs",
-                          fontWeight: "500",
-                          color: "success.500",
-                        }}
-                        alignSelf="flex-end"
-                        mt="1"
-                      >
-                        Esqueceu a senha?
-                      </Link>
-                    </FormControl>
-                    <Button
-                      mt="2"
-                      colorScheme="success"
-                      onPress={() => LoginNormalMethod()}
+                <Center w="100%">
+                  <Box safeArea p="2" py="8" w="90%" maxW="290">
+                    <Heading
+                      size="lg"
+                      fontWeight="600"
+                      color="coolGray.800"
+                      _dark={{
+                        color: "warmGray.50",
+                      }}
                     >
-                      Entrar
-                    </Button>
-                    <HStack mt="6" justifyContent="center">
-                      <Text
-                        fontSize="sm"
-                        color="coolGray.600"
-                        _dark={{
-                          color: "warmGray.200",
-                        }}
-                      >
-                        Veja o projeto no{" "}
-                      </Text>
-                      <Link
-                        _text={{
-                          color: "success.500",
-                          fontWeight: "medium",
-                          fontSize: "sm",
-                        }}
-                        href="#"
-                      >
-                        GitHub
-                      </Link>
-                    </HStack>
-                    <Center>
+                      Bem vindo de volta
+                    </Heading>
+                    <Heading
+                      mt="1"
+                      _dark={{
+                        color: "warmGray.200",
+                      }}
+                      color="coolGray.600"
+                      fontWeight="medium"
+                      size="xs"
+                    >
+                      faça login para continuar!
+                    </Heading>
+
+                    <VStack
+                      space={3}
+                      mt="5"
+                      _android={{
+                        top: -10,
+                      }}
+                      _ios={{
+                        top: -15,
+                      }}
+                    >
+                      <FormControl isInvalid={formData.IDState}>
+                        <FormControl.Label>
+                          <HStack space={2}>
+                            <FormControl.Label>ID</FormControl.Label>
+                            <FormControl.ErrorMessage
+                              top={-2.5}
+                              leftIcon={<WarningOutlineIcon size="xs" />}
+                            >
+                              Usuário não encontrado
+                            </FormControl.ErrorMessage>
+                          </HStack>
+                        </FormControl.Label>
+                        <Input
+                          onChangeText={(value) =>
+                            setData({
+                              ...formData,
+                              id_code: value,
+                            })
+                          }
+                        />
+                      </FormControl>
+                      <FormControl isInvalid={formData.PasswordState}>
+                        <FormControl.Label>
+                          <HStack space={2}>
+                            <FormControl.Label>Senha</FormControl.Label>
+                            <FormControl.ErrorMessage
+                              top={-2.5}
+                              leftIcon={<WarningOutlineIcon size="xs" />}
+                            >
+                              Senha incorreta
+                            </FormControl.ErrorMessage>
+                          </HStack>
+                        </FormControl.Label>
+
+                        <Input
+                          type="password"
+                          onChangeText={(value) =>
+                            setData({
+                              ...formData,
+                              password: value,
+                            })
+                          }
+                        />
+
+                        <Link
+                          _text={{
+                            fontSize: "xs",
+                            fontWeight: "500",
+                            color: "success.500",
+                          }}
+                          alignSelf="flex-end"
+                          mt="1"
+                        >
+                          Esqueceu a senha?
+                        </Link>
+                      </FormControl>
                       <Button
-                        colorScheme={"success"}
-                        leftIcon={
-                          <MaterialCommunityIcons
-                            name="qrcode-scan"
-                            size={24}
-                            color="black"
-                          />
-                        }
+                        mt="2"
+                        colorScheme="success"
+                        onPress={() => LoginNormalMethod()}
                       >
-                        Entre com QRCode
+                        Entrar
                       </Button>
-                    </Center>
-                  </VStack>
-                </Box>
-              </Center>
+                      <HStack mt="6" justifyContent="center">
+                        <Text
+                          fontSize="sm"
+                          color="coolGray.600"
+                          _dark={{
+                            color: "warmGray.200",
+                          }}
+                        >
+                          Veja o projeto no{" "}
+                        </Text>
+                        <Link
+                          _text={{
+                            color: "success.500",
+                            fontWeight: "medium",
+                            fontSize: "sm",
+                          }}
+                          href="https://github.com/BirdRa1n/SISTEMA-DE-PORTARIA-IFPI"
+                        >
+                          GitHub
+                        </Link>
+                      </HStack>
+                      <Center>
+                        <Button
+                        isDisabled={formData.stateQRButton}
+                          colorScheme={"success"}
+                          onPress={()=>navigation.navigate("LoginQR")}
+                          leftIcon={
+                            <MaterialCommunityIcons
+                              name="qrcode-scan"
+                              size={24}
+                              color="black"
+                            />
+                          }
+                        >
+                          Entre com QRCode
+                        </Button>
+                      </Center>
+                    </VStack>
+                  </Box>
+                </Center>
+              </KeyboardAvoidingView>
             </Box>
           </Center>
-        </KeyboardAvoidingView>
-      </View>
+        </ScrollView>
+      </Box>
     </NativeBaseProvider>
   );
 }

@@ -63,13 +63,39 @@ export default function Dashboard({ navigation }) {
 
   }
 
+  function RequestKey(signature_digital, hall) {
+    axios
+      .get("https://birdra1n.x10.bz/IFPI_PORTARIA/api/keys/request", {
+        params: {
+          signature_digital: signature_digital,
+          hall: hall,
+        },
+      })
+      .then(function (response) {
+        setShowModal(false);
+        console.log(response.data);
+        let dataRequest = response.data;
+        if(dataRequest.warning_error != undefined && "Without permission"){
+          alert('Você não possui autorização para solicitar essa chave')
+        }
+        if(dataRequest.code_request != undefined & dataRequest.success == "successfully reserved key"){
+          alert('Solicitação realizada com sucesso! \n\n'+
+          'Código da solicitação: '+dataRequest.code_request
+          )
+        }
+        if(dataRequest.warning_error == "room is busy"){
+          alert("A sala já está sendo usada");
+        }
+      });
+  }
+
   return (
     <NativeBaseProvider>
       <Center>
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-          <Modal.Content maxWidth="400px">
+          <Modal.Content w={'100%'} maxWidth="340px">
             <Modal.Body>
-              <Heading fontSize={15}>
+              <Heading fontSize={17} marginBottom={1}>
               Deseja solicitar a chave da sala {dataScreen.ModalHall}?
               </Heading>
               <Text  fontSize={"md"}>
@@ -81,6 +107,7 @@ export default function Dashboard({ navigation }) {
               <Button.Group space={2}>
                 <Button
                   variant="ghost"
+                  
                   colorScheme="blueGray"
                   onPress={() => {
                     setShowModal(false);
@@ -90,8 +117,9 @@ export default function Dashboard({ navigation }) {
                 </Button>
                 <Button
                   colorScheme={"success"}
+                  
                   onPress={() => {
-                    setShowModal(false);
+                    RequestKey(dataUser.signature_digital, dataScreen.ModalHall);
                   }}
                 >
                   Sim
@@ -148,12 +176,13 @@ export default function Dashboard({ navigation }) {
               >
                 <Box
                   marginBottom={1}
+                  marginTop={1}
                   alignItems={"center"}
                   bg={"light.50"}
-                  borderRadius={5}
-                  w={16}
+                  borderRadius={2}
+                  w={109}
                   h={59}
-                  p={1}
+                  p={0}
                   shadow={1}
                 >
                   <HStack>
