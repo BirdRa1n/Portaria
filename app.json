@@ -6,11 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -29,7 +24,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "",
+    "description": "Estou desenvolvendo um sistema de portaria para o Instituto Federal baseado no gerenciamento atual.",
     "githubUrl": "https://github.com/BirdRa1n/SISTEMA-DE-PORTARIA-IFPI"
   }
 }

@@ -227,6 +227,7 @@ export default function Login({ navigation }) {
                           }}
                           alignSelf="flex-end"
                           mt="1"
+                          href={"https://wa.me/5586981736756?text=Ol%C3%A1%21+esqueci+a+minha+senha+do+App+Portaria.+Desejo+redefini-la.+Meu+ID+%C3%A9+"+formData.id_code}
                         >
                           Esqueceu a senha?
                         </Link>

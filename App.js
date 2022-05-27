@@ -1,4 +1,3 @@
-import * as Linking from "expo-linking";
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -10,10 +9,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 //Screens
 import Login from "./Screens/Login";
 import Dashboard from "./Screens/Dashboard";
+import Requests from "./Screens/Dashboard/Requests";
+import Account from "./Screens/Dashboard/Account";
+import LoginQR from "./Screens/LoginQR";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const prefix = Linking.createURL("/");
+
 
 function TabNavigator(){
   return(
@@ -38,6 +40,9 @@ function TabNavigator(){
     })}
   >
     <Tab.Screen name="Chaves" component={Dashboard} options={{ headerShown: false, headerTitle: 'Portaria' }} />
+    <Tab.Screen name="Solicitações" component={Requests} options={{ headerShown: true, headerTitle: 'Solicitações' }} />
+    <Tab.Screen name="Conta" component={Account} options={{ headerShown: false, headerTitle: 'Conta' }} />
+
   </Tab.Navigator>
   )
 }
@@ -46,15 +51,14 @@ function TabNavigator(){
 
 
 export default function App() {
-  const linking = {
-    prefixes: [prefix],
-  };
+
   return (
     <SSRProvider>
-      <NavigationContainer linking={linking} >
+      <NavigationContainer >
         <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={"Login"}>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Dashboard" component={TabNavigator} />
+          <Stack.Screen name="LoginQR" component={LoginQR} />
         </Stack.Navigator>
       </NavigationContainer>
     </SSRProvider>
